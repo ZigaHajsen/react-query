@@ -1,3 +1,28 @@
-export const SuperHeroesPage: React.FC = () => {
-  return <div>Super Heroes Page</div>;
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Hero } from '../types';
+
+export const SuperHeroesPage = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState<Hero[]>([]);
+
+  useEffect(() => {
+    axios.get<Hero[]>('http://localhost:4000/superheroes').then((res) => {
+      setData(res.data);
+      setIsLoading(false);
+    });
+  }, []);
+
+  if (isLoading) {
+    return <h2>Loading...</h2>;
+  }
+
+  return (
+    <>
+      <h2>Super Heroes Page</h2>
+      {data.map((hero) => {
+        return <div key={hero.name}>{hero.name}</div>;
+      })}
+    </>
+  );
 };
