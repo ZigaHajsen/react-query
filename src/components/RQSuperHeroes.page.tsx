@@ -8,12 +8,16 @@ const fetchSuperHeroes = () => {
 };
 
 export const RQSuperHeroesPage: React.FC = () => {
-  const { data, isLoading, isError, error } = useQuery<
+  const { data, isLoading, isError, error, isFetching, refetch } = useQuery<
     AxiosResponse<Hero[]>,
     AxiosError
-  >('super-heroes', fetchSuperHeroes);
+  >('super-heroes', fetchSuperHeroes, {
+    enabled: false,
+  });
 
-  if (isLoading) {
+  console.log({ isLoading, isFetching });
+
+  if (isLoading || isFetching) {
     return <h2>Loading...</h2>;
   }
 
@@ -24,6 +28,7 @@ export const RQSuperHeroesPage: React.FC = () => {
   return (
     <>
       <h2>RQ Super Heroes Page</h2>
+      <button onClick={() => refetch()}>Fetch heroes</button>
       {data?.data.map((hero) => {
         return <div key={hero.name}>{hero.name}</div>;
       })}
