@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import { HomePage } from './components/Home.page';
+import { RQSuperHeroesPage } from './components/RQSuperHeroes.page';
+import { SuperHeroesPage } from './components/SuperHeroes.page';
+
 import './App.css';
 
-function App() {
+export const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to='/'>Home</Link>
+            </li>
+            <li>
+              <Link to='/super-heroes'>Traditional Super Heroes</Link>
+            </li>
+            <li>
+              <Link to='/rq-super-heroes'>RQ Super Heroes</Link>
+            </li>
+          </ul>
+        </nav>
+        <Routes>
+          <Route path='/super-heroes' element={<SuperHeroesPage />} />
+          <Route path='/rq-super-heroes' element={<RQSuperHeroesPage />} />
+          <Route path='/' element={<HomePage />} />
+        </Routes>
+      </div>
+    </Router>
   );
-}
-
-export default App;
+};
