@@ -6,6 +6,7 @@ import { SuperHeroesPage } from './components/SuperHeroes.page';
 
 import './App.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ export const App = () => {
           </Routes>
         </div>
       </Router>
+      <ReactQueryDevtools initialIsOpen={false} position='bottom-right' />
     </QueryClientProvider>
   );
 };
