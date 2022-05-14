@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 import { Hero } from '../types';
 
 const fetchSuperHeroes = () => {
-  return axios.get<Hero[]>('http://localhost:4000/superheroes1');
+  return axios.get<Hero[]>('http://localhost:4000/superheroes');
 };
 
 export const RQSuperHeroesPage: React.FC = () => {
