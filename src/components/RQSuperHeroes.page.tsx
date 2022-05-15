@@ -12,10 +12,12 @@ export const RQSuperHeroesPage: React.FC = () => {
     console.log('Perform side effect after encountering error', error);
   };
 
-  const { data, isLoading, isError, error, isFetching, refetch } =
-    useSuperHeroesData({ onSuccess, onError });
+  const { data, isLoading, isError, error, refetch } = useSuperHeroesData({
+    onSuccess,
+    onError,
+  });
 
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return <h2>Loading...</h2>;
   }
 

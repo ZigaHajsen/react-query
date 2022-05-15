@@ -1,12 +1,12 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 import { Hero } from '../types';
 
 const fetchSuperHero = ({
   queryKey,
 }: {
-  queryKey: [string, string | undefined];
+  queryKey: [string, number | undefined];
 }) => {
   const heroId = queryKey[1];
   if (!heroId) {
@@ -19,12 +19,36 @@ const fetchSuperHero = ({
 export const useSuperHeroData = ({
   heroId,
 }: {
-  heroId: string | undefined;
+  heroId: number | undefined;
 }) => {
+  const queryClient = useQueryClient();
+
   return useQuery<
     AxiosResponse<Hero> | null,
     AxiosError,
     AxiosResponse<Hero> | null,
-    [string, string | undefined]
-  >(['super-hero', heroId], fetchSuperHero);
+    [string, number | undefined]
+  >(['super-hero', heroId], fetchSuperHero, {
+    initialData: () => {
+      const superHeroesResponse =
+        queryClient.getQueryData<AxiosResponse<Hero[]>>('super-heroes');
+
+      if (!superHeroesResponse) {
+        return undefined;
+      }
+
+      const hero = superHeroesResponse?.data?.find(
+        (hero) => hero.id === heroId
+      );
+
+      if (!hero) {
+        return undefined;
+      }
+
+      return {
+        ...superHeroesResponse,
+        data: hero,
+      };
+    },
+  });
 };

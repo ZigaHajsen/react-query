@@ -8,7 +8,7 @@ type Params = {
 export const RQSuperHeroPage: React.FC = () => {
   const { heroId } = useParams<Params>();
   const { isLoading, data, isError, error } = useSuperHeroData({
-    heroId,
+    heroId: parseInt(heroId!),
   });
 
   if (isLoading) {
