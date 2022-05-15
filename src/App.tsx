@@ -6,6 +6,7 @@ import { HomePage } from './components/Home.page';
 import { SuperHeroesPage } from './components/SuperHeroes.page';
 import { RQSuperHeroesPage } from './components/RQSuperHeroes.page';
 import { RQSuperHeroPage } from './components/RQSuperHero.page';
+import { RQParallelQueriesPage } from './components/RQParallelQueries.page';
 
 import './App.css';
 
@@ -31,6 +32,7 @@ export const App = () => {
           </nav>
           <Routes>
             <Route path='/super-heroes' element={<SuperHeroesPage />} />
+            <Route path='/rq-parallel' element={<RQParallelQueriesPage />} />
             <Route
               path='/rq-super-heroes/:heroId'
               element={<RQSuperHeroPage />}
