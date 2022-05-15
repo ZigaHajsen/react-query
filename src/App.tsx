@@ -7,11 +7,12 @@ import { SuperHeroesPage } from './components/SuperHeroes.page';
 import { RQSuperHeroesPage } from './components/RQSuperHeroes.page';
 import { RQSuperHeroPage } from './components/RQSuperHero.page';
 import { RQParallelQueriesPage } from './components/RQParallelQueries.page';
-
-import './App.css';
 import { RQDynamicParallelQueriesPage } from './components/RQDynamicParallelQueries.page';
 import { RQDependantQueries } from './components/RQDependantQueries.page';
 import { RQPaginatedQueriesPage } from './components/RQPaginatedQueries.page';
+import { RQInfiniteQueriesPage } from './components/RQInfiniteQueries.page';
+
+import './App.css';
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ export const App = () => {
           </nav>
           <Routes>
             <Route path='/super-heroes' element={<SuperHeroesPage />} />
+            <Route path='/rq-infinite' element={<RQInfiniteQueriesPage />} />
             <Route path='/rq-paginated' element={<RQPaginatedQueriesPage />} />
             <Route path='/rq-parallel' element={<RQParallelQueriesPage />} />
             <Route
