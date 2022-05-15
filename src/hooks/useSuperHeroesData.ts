@@ -1,10 +1,14 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { useQuery } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 import { Hero } from '../types';
 
 const fetchSuperHeroes = () => {
   return axios.get<Hero[]>('http://localhost:4000/superheroes');
+};
+
+const addSuperHero = (hero: Omit<Hero, 'id'>) => {
+  return axios.post<Hero>('http://localhost:4000/superheroes', hero);
 };
 
 export const useSuperHeroesData = ({
@@ -22,4 +26,55 @@ export const useSuperHeroesData = ({
       onError,
     }
   );
+};
+
+export const useAddSuperHeroData = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(addSuperHero, {
+    /*     onSuccess: (data) => {
+      // queryClient.invalidateQueries('super-heroes');
+      queryClient.setQueryData<AxiosResponse<Hero[]>>(
+        'super-heroes',
+        // @ts-ignore
+        (oldQueryData) => {
+          return {
+            ...oldQueryData,
+            data: [...oldQueryData!.data, data.data],
+          };
+        }
+      );
+    }, */
+    onMutate: async (newHero) => {
+      await queryClient.cancelQueries('super-heroes');
+
+      const previousHeroData = queryClient.getQueryData('super-heroes');
+
+      queryClient.setQueryData<AxiosResponse<Hero[]>>(
+        'super-heroes',
+        // @ts-ignore
+        (oldQueryData) => {
+          return {
+            ...oldQueryData,
+            data: [
+              ...oldQueryData!.data,
+              // @ts-ignore
+              { id: oldQueryData?.data?.length + 1, ...newHero },
+            ],
+          };
+        }
+      );
+
+      return {
+        previousHeroData,
+      };
+    },
+    onError: (_error, _hero, context) => {
+      // @ts-ignore
+      queryClient.setQueryData('super-heroes', context.previousHeroData);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries('super-heroes');
+    },
+  });
 };

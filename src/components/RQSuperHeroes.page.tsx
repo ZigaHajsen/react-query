@@ -1,21 +1,31 @@
+import { useState } from 'react';
 import { AxiosResponse, AxiosError } from 'axios';
 
 import { Hero } from '../types';
-import { useSuperHeroesData } from '../hooks/useSuperHeroesData';
+import {
+  useAddSuperHeroData,
+  useSuperHeroesData,
+} from '../hooks/useSuperHeroesData';
 import { Link } from 'react-router-dom';
 
 export const RQSuperHeroesPage: React.FC = () => {
-  const onSuccess = (data: AxiosResponse<Hero[]>) => {
-    console.log('Perform side effect after data fetching', data);
-  };
-  const onError = (error: AxiosError) => {
-    console.log('Perform side effect after encountering error', error);
-  };
+  const [name, nameSet] = useState('');
+  const [alterEgo, alterEgoSet] = useState('');
+
+  const onSuccess = (data: AxiosResponse<Hero[]>) => {};
+  const onError = (error: AxiosError) => {};
 
   const { data, isLoading, isError, error, refetch } = useSuperHeroesData({
     onSuccess,
     onError,
   });
+
+  const { mutate } = useAddSuperHeroData();
+
+  const handleAddHeroClick = () => {
+    const hero = { name, alterEgo };
+    mutate(hero);
+  };
 
   if (isLoading) {
     return <h2>Loading...</h2>;
@@ -28,6 +38,19 @@ export const RQSuperHeroesPage: React.FC = () => {
   return (
     <>
       <h2>RQ Super Heroes Page</h2>
+      <div>
+        <input
+          type='text'
+          value={name}
+          onChange={(e) => nameSet(e.target.value)}
+        />
+        <input
+          type='text'
+          value={alterEgo}
+          onChange={(e) => alterEgoSet(e.target.value)}
+        />
+        <button onClick={handleAddHeroClick}>Add Hero</button>
+      </div>
       <button onClick={() => refetch()}>Fetch heroes</button>
       {data?.data.map((hero) => {
         return (

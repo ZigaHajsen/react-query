@@ -14,7 +14,7 @@ type RQDynamicParallelQueriesPageProps = {
 export const RQDynamicParallelQueriesPage: React.FC<
   RQDynamicParallelQueriesPageProps
 > = ({ heroIds }) => {
-  const queryResults = useQueries(
+  useQueries(
     heroIds.map((id) => {
       return {
         queryKey: ['super-hero', id],
@@ -22,8 +22,6 @@ export const RQDynamicParallelQueriesPage: React.FC<
       };
     })
   );
-
-  console.log({ queryResults });
 
   return <div>RQ Dynamic Parallel Queries Page</div>;
 };
