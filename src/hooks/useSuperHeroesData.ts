@@ -10,19 +10,16 @@ const fetchSuperHeroes = () => {
 export const useSuperHeroesData = ({
   onSuccess,
   onError,
-  select,
 }: {
-  onSuccess: (data: AxiosResponse<Hero[]> | string[]) => void;
+  onSuccess: (data: AxiosResponse<Hero[]>) => void;
   onError: (error: AxiosError) => void;
-  select: (data: AxiosResponse<Hero[]>) => string[];
 }) => {
-  return useQuery<AxiosResponse<Hero[]>, AxiosError, string[]>(
+  return useQuery<AxiosResponse<Hero[]>, AxiosError>(
     'super-heroes',
     fetchSuperHeroes,
     {
       onSuccess,
       onError,
-      select,
     }
   );
 };
