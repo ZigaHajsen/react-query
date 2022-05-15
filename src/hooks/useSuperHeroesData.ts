@@ -20,7 +20,6 @@ export const useSuperHeroesData = ({
     'super-heroes',
     fetchSuperHeroes,
     {
-      enabled: false,
       onSuccess,
       onError,
       select,
