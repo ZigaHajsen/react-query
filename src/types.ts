@@ -18,3 +18,8 @@ export type Channel = {
   id: string;
   courses: string[];
 };
+
+export type Color = {
+  id: string;
+  label: string;
+};
